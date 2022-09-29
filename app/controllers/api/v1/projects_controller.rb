@@ -1,60 +1,66 @@
-class Api::V1::ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :update, :destroy]
+# frozen_string_literal: true
 
-  def index
-    @projects = Project.all
+module Api
+  module V1
+    class ProjectsController < ApplicationController
+      before_action :set_project, only: %i[show update destroy]
 
-    render json: @projects.to_json
-  end
+      def index
+        @projects = Project.all
 
-  def show
-    render json: @project
-  end
+        render json: @projects.to_json
+      end
 
-  def create
-    @project = Project.new project_params
+      def show
+        render json: @project
+      end
 
-    if @project.save
-      render json: {
-        status: 201,
-        project: @project
-      }
-    else
-      render json: {
-        status: 402,
-        errors: @project.errors.full_messages
-      }
+      def create
+        @project = Project.new project_params
+
+        if @project.save
+          render json: {
+            status: 201,
+            project: @project
+          }
+        else
+          render json: {
+            status: 402,
+            errors: @project.errors.full_messages
+          }
+        end
+      end
+
+      def update
+        if @project.update(project_params)
+          render json: {
+            status: 200,
+            project: @project
+          }
+        else
+          render json: {
+            status: 422,
+            errors: @project.errors.full_messages
+          }
+        end
+      end
+
+      def destroy
+        @project.destroy
+        render json: {
+          status: 202
+        }
+      end
+
+      private
+
+      def project_params
+        params.require(:project).permit(:name, :description)
+      end
+
+      def set_project
+        @project = Project.find(params[:id])
+      end
     end
-  end
-
-  def update
-    if @project.update(project_params)
-      render json: {
-        status: 200,
-        project: @project
-      }
-    else
-      render json: {
-        status: 422,
-        errors: @project.errors.full_messages
-      }
-    end
-  end
-
-  def destroy
-    @project.destroy
-    render json: {
-      status: 202
-    }
-  end
-
-  private
-
-  def project_params
-    params.require(:project).permit(:name, :description)
-  end
-
-  def set_project
-    @project = Project.find(params[:id])
   end
 end

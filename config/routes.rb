@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :api do
     namespace :v1 do
-      resources :projects, except: [:new, :edit]
+      resources :projects, except: %i[new edit]
     end
   end
 end
