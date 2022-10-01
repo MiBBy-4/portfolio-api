@@ -25,15 +25,15 @@ module PortfolioApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-
-    if Rails.env == 'production'
-      config.session_store :cookie_store, key: "_portfolio_api", domain: ENV['HEROKU_APP_DOMAIN'], secure: true, same_site: :none
+    if Rails.env.production?
+      config.session_store :cookie_store, key: '_portfolio_api', domain: ENV.fetch('HEROKU_APP_DOMAIN', nil), secure: true,
+                                          same_site: :none
     else
-      config.session_store :cookie_store, key: "_portfolio_api"
+      config.session_store :cookie_store, key: '_portfolio_api'
     end
 
     config.middleware.use ActionDispatch::Cookies
-    
+
     config.middleware.use config.session_store, config.session_options
     # Configuration for the application, engines, and railties goes here.
     #

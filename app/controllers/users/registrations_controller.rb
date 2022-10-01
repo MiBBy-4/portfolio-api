@@ -1,25 +1,29 @@
-class Users::RegistrationsController < ApplicationController
-  def create
-    user = User.new user_params
+# frozen_string_literal: true
 
-    if user.save
-      session[:user_id] = user.id
+module Users
+  class RegistrationsController < ApplicationController
+    def create
+      user = User.new user_params
 
-      render json: {
-        status: 201,
-        user: user
-      }
-    else
-      render json: {
-        status: 422,
-        errors: user.errors.full_messages
-      }
+      if user.save
+        session[:user_id] = user.id
+
+        render json: {
+          status: 201,
+          user: user
+        }
+      else
+        render json: {
+          status: 422,
+          errors: user.errors.full_messages
+        }
+      end
     end
-  end
 
-  private
+    private
 
-  def user_params
-    params.require(:users).permit(:email, :name, :password, :password_confirmation)
+    def user_params
+      params.require(:users).permit(:email, :name, :password, :password_confirmation)
+    end
   end
 end
