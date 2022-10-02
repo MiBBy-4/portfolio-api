@@ -13,7 +13,7 @@ module Api
       end
 
       def create
-        news = News.new news_params
+        news = @current_user.news.build news_params
 
         if news.save
           render json: {
@@ -32,12 +32,12 @@ module Api
         if @news.update news_params
           render json: {
             status: 201,
-            news: news
+            news: @news
           }
         else
           render json: {
             status: 402,
-            errors: news.errors.full_messages
+            errors: @news.errors.full_messages
           }
         end
       end
@@ -56,7 +56,7 @@ module Api
       end
 
       def set_news
-        @news = News.find(params[:news_id])
+        @news = News.find(params[:id])
       end
     end
   end

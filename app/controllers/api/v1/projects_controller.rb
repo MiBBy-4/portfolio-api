@@ -16,7 +16,7 @@ module Api
       end
 
       def create
-        @project = Project.new project_params
+        @project = @current_user.projects.build project_params
 
         if @project.save
           render json: {
@@ -55,7 +55,7 @@ module Api
       private
 
       def project_params
-        params.require(:project).permit(:title, :description)
+        params.require(:project).permit(:title, :description, :start_date, :finish_date, :repository_link)
       end
 
       def set_project
