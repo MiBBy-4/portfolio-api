@@ -7,8 +7,12 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :api do
     namespace :v1 do
-      resources :projects, except: %i[new edit]
-      resources :news, except: %i[new edit]
+      resources :projects, except: %i[new edit] do
+        resources :comments, only: :create
+      end
+      resources :news, except: %i[new edit] do
+        resources :comments, only: :create
+      end
     end
   end
 
