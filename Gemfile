@@ -33,6 +33,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 # New global gems placed here
 gem 'dotenv-rails'
+gem 'draper'
 gem 'rubocop', '~> 1.32', require: false
 gem 'rubocop-performance', require: false
 gem 'rubocop-rails', require: false

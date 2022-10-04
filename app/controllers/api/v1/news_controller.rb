@@ -11,7 +11,10 @@ module Api
       end
 
       def show
-        render json: @news
+        render json: {
+          news: @news,
+          comments: @news.comments
+        }
       end
 
       def create

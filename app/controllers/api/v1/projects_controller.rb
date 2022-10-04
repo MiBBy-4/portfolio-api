@@ -12,7 +12,10 @@ module Api
       end
 
       def show
-        render json: @project
+        render json: {
+          project: @project,
+          comments: @project.comments
+        }
       end
 
       def create
